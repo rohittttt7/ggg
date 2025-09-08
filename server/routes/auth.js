@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { mockServices, useMockDb } from '../services/mockService.js';
 
 const router = express.Router();
 
@@ -9,25 +10,25 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    // Check if user already exists (mock for now)
+    const existingUser = await mockServices.findUser({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create new user
-    const user = new User({
+    // For now, return a mock response for registration
+    const mockUser = {
+      id: '999',
       email,
-      password,
       firstName,
-      lastName
-    });
-
-    await user.save();
+      lastName,
+      points: 100,
+      role: 'user'
+    };
 
     // Generate token
     const token = jwt.sign(
-      { userId: user._id },
+      { userId: mockUser.id },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -35,14 +36,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json({
       message: 'User created successfully',
       token,
-      user: {
-        id: user._id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        points: user.points,
-        role: user.role
-      }
+      user: mockUser
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -54,14 +48,14 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
-    const user = await User.findOne({ email });
+    // Find user using mock service
+    const user = await mockServices.findUser({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // Check password
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await mockServices.comparePassword(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }

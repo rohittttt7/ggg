@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { mockItemDb } from '../mockDb.js';
 
 const itemSchema = new mongoose.Schema({
   title: {
@@ -63,4 +64,38 @@ const itemSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-export default mongoose.model('Item', itemSchema);
+const MongoItem = mongoose.model('Item', itemSchema);
+
+// Mock Item class
+class MockItem {
+  constructor(data) {
+    Object.assign(this, data);
+  }
+
+  async save() {
+    const result = await mockItemDb.save(this);
+    Object.assign(this, result);
+    return this;
+  }
+
+  populate(fields) {
+    return this;
+  }
+
+  static async find(query = {}) {
+    return await mockItemDb.find(query);
+  }
+
+  static async findById(id) {
+    return await mockItemDb.findById(id);
+  }
+
+  static async findByIdAndUpdate(id, update, options) {
+    return await mockItemDb.findByIdAndUpdate(id, update, options);
+  }
+}
+
+// Export the appropriate model based on database mode
+const Item = global.useMockDb ? MockItem : MongoItem;
+
+export default Item;
