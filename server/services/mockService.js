@@ -31,6 +31,9 @@ const sampleUsers = [
   }
 ];
 
+// Helper to generate a new string id
+const nextId = () => (sampleUsers.length ? (Math.max(...sampleUsers.map(u => Number(u._id))) + 1).toString() : '1')
+
 const sampleItems = [
   {
     _id: '1',
@@ -92,6 +95,31 @@ export const mockServices = {
       return sampleUsers.find(user => user._id === query._id.toString());
     }
     return null;
+  },
+
+  async addUser({ email, password, firstName, lastName, role = 'user', points = 100 }) {
+    // Prevent duplicates
+    const exists = sampleUsers.find(u => u.email === email)
+    if (exists) {
+      const err = new Error('User already exists')
+      err.code = 'DUPLICATE'
+      throw err
+    }
+    const hashed = await bcrypt.hash(password, 12)
+    const user = {
+      _id: nextId(),
+      email,
+      password: hashed,
+      firstName,
+      lastName,
+      points,
+      role,
+      joinedDate: new Date()
+    }
+    sampleUsers.push(user)
+    // Return a copy without password
+    const { password: _p, ...safe } = user
+    return safe
   },
 
   async findItems(filter = {}) {

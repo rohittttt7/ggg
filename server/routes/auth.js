@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import { mockServices, useMockDb } from '../services/mockService.js';
+import { mockServices } from '../services/mockService.js';
 
 const router = express.Router();
 
@@ -16,29 +16,25 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // For now, return a mock response for registration
-    const mockUser = {
-      id: '999',
-      email,
-      firstName,
-      lastName,
-      points: 100,
-      role: 'user'
-    };
+    // Create user via mock service
+    const created = await mockServices.addUser({ email, password, firstName, lastName });
 
     // Generate token
     const token = jwt.sign(
-      { userId: mockUser.id },
-      process.env.JWT_SECRET,
+      { userId: created._id },
+      process.env.JWT_SECRET || 'devsecret',
       { expiresIn: '7d' }
     );
 
     res.status(201).json({
       message: 'User created successfully',
       token,
-      user: mockUser
+      user: created
     });
   } catch (error) {
+    if (error.code === 'DUPLICATE') {
+      return res.status(400).json({ message: 'User already exists' });
+    }
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
@@ -63,7 +59,7 @@ router.post('/login', async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'devsecret',
       { expiresIn: '7d' }
     );
 

@@ -1,23 +1,21 @@
 import express from 'express';
 import { mockServices } from '../services/mockService.js';
+import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Get current user profile (mock for now)
-router.get('/profile', async (req, res) => {
+router.get('/profile', auth, async (req, res) => {
   try {
-    // For demo, return a mock user profile
-    const mockUser = {
-      _id: '1',
-      email: 'demo@rewear.com',
-      firstName: 'Demo',
-      lastName: 'User',
-      points: 150,
-      role: 'user',
-      joinedDate: new Date()
-    };
-    
-    res.json(mockUser);
+    // If auth middleware attached a user, return it
+    if (req.user) {
+      return res.json(req.user);
+    }
+
+    // Fallback for demo (should rarely hit)
+    const demo = await mockServices.findUser({ email: 'demo@rewear.com' });
+    const { password, ...rest } = demo || {};
+    res.json(rest);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

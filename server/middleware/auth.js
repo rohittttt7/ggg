@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { mockServices } from '../services/mockService.js';
 
 export const auth = async (req, res, next) => {
   try {
@@ -9,12 +10,29 @@ export const auth = async (req, res, next) => {
       return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.userId).select('-password');
-    
-    if (!req.user) {
-      return res.status(401).json({ message: 'Token is not valid' });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'devsecret');
+
+    // Try DB first
+    let user = null;
+    try {
+      user = await User.findById(decoded.userId).select?.('-password') || null;
+    } catch (_) {
+      // ignore DB errors in mock mode
     }
+
+    // Fallback to mock services if not found
+    if (!user) {
+      user = await mockServices.findUser({ _id: decoded.userId });
+      if (user) {
+        // align shape a bit
+        const { password, ...rest } = user;
+        user = rest;
+      }
+    }
+
+    if (!user) return res.status(401).json({ message: 'Token is not valid' });
+
+    req.user = user;
     
     next();
   } catch (error) {

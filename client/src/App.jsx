@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import ItemDetail from './pages/ItemDetail'
 import AddItem from './pages/AddItem'
 import AdminPanel from './pages/AdminPanel'
+import Items from './pages/Items'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/items" element={<Items />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />

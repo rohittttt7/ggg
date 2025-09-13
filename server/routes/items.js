@@ -6,14 +6,14 @@ const router = express.Router();
 // Get all approved items (public)
 router.get('/', async (req, res) => {
   try {
-    const { category, size, condition, search } = req.query;
+    const { category, size, condition, search, limit } = req.query;
     let filter = { status: 'approved', isAvailable: true };
 
     if (category) filter.category = category;
     if (size) filter.size = size;
     if (condition) filter.condition = condition;
 
-    const items = await mockServices.findItems(filter);
+  const items = await mockServices.findItems(filter);
 
     // Apply search filter if provided
     let filteredItems = items;
@@ -26,7 +26,14 @@ router.get('/', async (req, res) => {
       );
     }
 
-    res.json(filteredItems);
+    // Apply limit if provided and valid
+    let result = filteredItems;
+    const num = parseInt(limit, 10);
+    if (!isNaN(num) && num > 0) {
+      result = filteredItems.slice(0, num);
+    }
+
+    res.json(result);
   } catch (error) {
     console.error('Error in GET /api/items:', error);
     res.status(500).json({ message: 'Server error', error: error.message });

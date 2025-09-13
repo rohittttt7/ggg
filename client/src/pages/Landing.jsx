@@ -7,6 +7,7 @@ import './Landing.css'
 const Landing = () => {
   const [featuredItems, setFeaturedItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     fetchFeaturedItems()
@@ -14,10 +15,12 @@ const Landing = () => {
 
   const fetchFeaturedItems = async () => {
     try {
+      setError('')
       const response = await axios.get('/api/items?limit=6')
       setFeaturedItems(response.data.slice(0, 6))
     } catch (error) {
       console.error('Error fetching featured items:', error)
+      setError('Could not load items. Make sure the backend is running on http://localhost:5000')
     } finally {
       setLoading(false)
     }
@@ -46,6 +49,9 @@ const Landing = () => {
               </Link>
               <Link to="/add-item" className="btn btn-success btn-lg">
                 List an Item
+              </Link>
+              <Link to="/login" className="btn btn-outline btn-lg">
+                Login
               </Link>
             </div>
           </div>
@@ -80,6 +86,9 @@ const Landing = () => {
       <section className="featured-items">
         <div className="container">
           <h2>Featured Items</h2>
+          {error && (
+            <div className="alert alert-danger" style={{ marginBottom: 12 }}>{error}</div>
+          )}
           {loading ? (
             <p>Loading featured items...</p>
           ) : featuredItems.length > 0 ? (

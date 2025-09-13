@@ -35,34 +35,34 @@ A sustainable fashion platform that enables users to exchange unused clothing th
    ```
 
 2. **Install server dependencies**
-   ```bash
+   ```powershell
    cd server
    npm install
    ```
 
 3. **Install client dependencies**
-   ```bash
+   ```powershell
    cd ../client
    npm install
    ```
 
-4. **Set up environment variables**
-   ```bash
-   cd ../server
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
+4. **Set up environment variables** (optional in dev)
+   - The server uses sensible defaults in development:
+     - `PORT=5000`
+     - `JWT_SECRET=devsecret`
+     - `MONGODB_URI` defaults to `mongodb://localhost:27017/rewear`
+   - To customize, create `server/.env` with your values.
 
 5. **Start the development servers**
 
    **Terminal 1 - Backend:**
-   ```bash
+   ```powershell
    cd server
    npm run dev
    ```
 
    **Terminal 2 - Frontend:**
-   ```bash
+   ```powershell
    cd client
    npm run dev
    ```
