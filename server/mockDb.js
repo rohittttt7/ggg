@@ -246,6 +246,97 @@ const sampleItems = [
     pointValue: 90,
     owner: 1,
     status: 'approved'
+  },
+  {
+    title: 'Leather Boots',
+    description: 'Sturdy brown leather boots, perfect for autumn and winter. Some scuffs but lots of life left.',
+    category: 'shoes',
+    type: 'boots',
+    size: '10',
+    condition: 'fair',
+    images: ['https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400'],
+    tags: ['leather', 'boots', 'brown'],
+    pointValue: 55,
+    owner: 2,
+    status: 'approved'
+  },
+  {
+    title: 'Striped T-Shirt',
+    description: 'Casual striped tee, soft cotton, great for everyday wear.',
+    category: 'tops',
+    type: 't-shirt',
+    size: 'L',
+    condition: 'good',
+    images: ['https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400'],
+    tags: ['striped', 'casual', 'cotton'],
+    pointValue: 25,
+    owner: 1,
+    status: 'approved'
+  },
+  {
+    title: 'Wool Scarf',
+    description: 'Warm wool scarf, hand-knitted, perfect for cold weather.',
+    category: 'accessories',
+    type: 'scarf',
+    size: 'One Size',
+    condition: 'like-new',
+    images: ['https://images.unsplash.com/photo-1464983953574-0892a716854b?w=400'],
+    tags: ['wool', 'scarf', 'handmade'],
+    pointValue: 20,
+    owner: 2,
+    status: 'approved'
+  },
+  {
+    title: 'Black Skinny Jeans',
+    description: 'Classic black skinny jeans, stretch fit, lightly worn.',
+    category: 'bottoms',
+    type: 'jeans',
+    size: 'M',
+    condition: 'good',
+    images: ['https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400'],
+    tags: ['jeans', 'black', 'skinny'],
+    pointValue: 40,
+    owner: 1,
+    status: 'approved'
+  },
+  {
+    title: 'Raincoat',
+    description: 'Waterproof yellow raincoat, cheerful and practical for rainy days.',
+    category: 'outerwear',
+    type: 'raincoat',
+    size: 'XL',
+    condition: 'like-new',
+    images: ['https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400'],
+    tags: ['raincoat', 'yellow', 'waterproof'],
+    pointValue: 65,
+    owner: 2,
+    status: 'approved'
+  },
+  {
+    title: 'Red Beanie',
+    description: 'Bright red beanie, soft and warm, adds a pop of color to any outfit.',
+    category: 'accessories',
+    type: 'beanie',
+    size: 'One Size',
+    condition: 'new',
+    images: ['https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=400'],
+    tags: ['beanie', 'red', 'warm'],
+    pointValue: 15,
+    owner: 1,
+    status: 'approved'
+  },
+  {
+    title: 'Plaid Shirt',
+    description: 'Classic plaid button-up shirt, comfortable and stylish.',
+    category: 'tops',
+    type: 'shirt',
+    size: 'XL',
+    condition: 'good',
+    images: ['https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=400'],
+    tags: ['plaid', 'shirt', 'button-up'],
+    pointValue: 35,
+    owner: 2,
+    status: 'approved'
   }
 ]
 
