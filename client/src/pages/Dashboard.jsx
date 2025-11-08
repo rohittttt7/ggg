@@ -18,7 +18,7 @@ const Dashboard = () => {
       try {
         setLoading(true)
         setError('')
-        const { data } = await axios.get('/api/items/user/my-items')
+        const { data } = await axios.get('/api/items/my-items')
         setMyItems(data)
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load your items')

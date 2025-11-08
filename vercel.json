@@ -1,0 +1,50 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "client/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/auth/login",
+      "dest": "/api/auth/login.js"
+    },
+    {
+      "src": "/api/auth/register",
+      "dest": "/api/auth/register.js"
+    },
+    {
+      "src": "/api/items/my-items",
+      "dest": "/api/items/my-items.js"
+    },
+    {
+      "src": "/api/items/([^/]+)",
+      "dest": "/api/items/[id].js?id=$1"
+    },
+    {
+      "src": "/api/items",
+      "dest": "/api/items/index.js"
+    },
+    {
+      "src": "/api/users/profile",
+      "dest": "/api/users/profile.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/$1"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "JWT_SECRET": "devsecret"
+  }
+}

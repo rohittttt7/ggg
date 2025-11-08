@@ -23,6 +23,11 @@ export const AuthProvider = ({ children }) => {
     } else {
       delete axios.defaults.headers.common['Authorization']
     }
+    
+    // Set base URL for production
+    if (process.env.NODE_ENV === 'production') {
+      axios.defaults.baseURL = ''
+    }
   }, [token])
 
   // Check if user is logged in on app start

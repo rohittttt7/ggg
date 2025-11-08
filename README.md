@@ -1,6 +1,6 @@
 # ReWear - Community Clothing Exchange Platform
 
-A sustainable fashion platform that enables users to exchange unused clothing through direct swaps or a point-based redemption system. Built with React.js, Node.js, Express.js, and MongoDB.
+A full-stack React and Node.js application for community clothing exchange, now optimized for Vercel deployment with serverless functions.
 
 ## 🌟 Features
 
@@ -70,6 +70,55 @@ A sustainable fashion platform that enables users to exchange unused clothing th
 6. **Access the application**
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:5000
+
+## 🚀 Vercel Deployment
+
+This application is now configured for seamless deployment on Vercel with serverless functions.
+
+### Deploy to Vercel
+
+#### Option 1: GitHub Integration (Recommended)
+
+1. Push your code to a GitHub repository
+2. Go to [vercel.com/dashboard](https://vercel.com/dashboard)
+3. Click "New Project"
+4. Import your GitHub repository
+5. Vercel will automatically detect the configuration and deploy
+
+#### Option 2: Vercel CLI
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy from project root
+vercel
+```
+
+### Environment Variables for Vercel
+
+Set these in your Vercel dashboard:
+- `JWT_SECRET`: Your JWT secret key (default: "devsecret")
+- `MONGODB_URI`: Optional MongoDB connection string
+
+### Vercel Project Structure
+
+```
+/
+├── api/                    # Vercel serverless functions
+│   ├── auth/
+│   │   ├── login.js       # POST /api/auth/login
+│   │   └── register.js    # POST /api/auth/register
+│   ├── items/
+│   │   ├── index.js       # GET/POST /api/items
+│   │   ├── [id].js        # GET /api/items/:id
+│   │   └── my-items.js    # GET /api/items/my-items
+│   └── users/
+│       └── profile.js     # GET /api/users/profile
+├── client/                # React frontend
+├── server/               # Original Express server (dev only)
+└── vercel.json          # Vercel configuration
+```
 
 ## 🧪 Demo Credentials
 
